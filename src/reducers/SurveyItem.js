@@ -1,20 +1,34 @@
 /*
     설문지 항목에 대한 리듀스 입니다.
 */
+
+import {
+  AddSection,
+  RemoveSection,
+  MoveSection,
+  CopySection,
+  ChangeSectionText,
+} from '../actions';
+
 const initialId = {
-  section: 0,
-  item: 0,
-  question: 0,
+  section: 1,
+  item: 1,
+  question: 1,
   row: 0,
   column: 0,
+  plusId(target) {
+    this[target] += 1;
+  },
 };
-const InitalState = [
-  {
-    sectionId: 1,
+
+// state 생성
+function createState() {
+  return {
+    sectionId: initialId.section,
     nextId: 0,
     items: [
       {
-        id: 1,
+        id: initialId.item,
         itemType: 0,
         title: '',
         description: '',
@@ -28,7 +42,7 @@ const InitalState = [
         },
         questions: [
           {
-            id: 1,
+            id: initialId.question,
             title: '',
           },
         ],
@@ -38,16 +52,32 @@ const InitalState = [
         },
       },
     ],
-  },
-];
+  };
+}
 
-const SurveyItem = (state = InitalState, action) => {
+/// #region 기능
+function addSection(state) {
+  initialId.plusId('section');
+  return [...state, createState()];
+}
+
+const initialState = [createState()];
+/// #endregion
+function SurveyItem(state = initialState, action) {
   switch (action.type) {
-    case 1:
+    case AddSection:
+      return addSection(state);
+    case RemoveSection:
+      return state;
+    case MoveSection:
+      return state;
+    case CopySection:
+      return state;
+    case ChangeSectionText:
       return state;
     default:
       return state;
   }
-};
+}
 
 export default SurveyItem;
