@@ -8,6 +8,7 @@ import {
   MoveSection,
   CopySection,
   ChangeSectionText,
+  ChangeSectionNextId,
 } from '../actions';
 
 const initialId = {
@@ -86,6 +87,17 @@ function changeSectionText(state, sectionId, target, text) {
     section.sectionId === sectionId ? { ...section, [target]: text } : section,
   );
 }
+// 섹션 다음단계 설정하기
+function changeSectionNextId(state, sectionId, nextId) {
+  return state.map((section) =>
+    section.sectionId === sectionId
+      ? {
+          ...section,
+          nextId,
+        }
+      : section,
+  );
+}
 /// #endregion
 const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
@@ -105,6 +117,8 @@ function SurveyItem(state = initialState, action) {
         action.target,
         action.text,
       );
+    case ChangeSectionNextId:
+      return changeSectionNextId(state, action.sectionId, action.nextId);
     default:
       return state;
   }

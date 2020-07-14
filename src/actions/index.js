@@ -28,8 +28,16 @@ export const ACTION_COPY_SECTION = (sectionId) => ({
 });
 // 섹션 제목 & 설명 추가
 export const ChangeSectionText = 'CHANGE/SECTION/TEXT';
-export const ACTION_CHANGE_SECTION_TEXT = (sectionId, target) => ({
+export const ACTION_CHANGE_SECTION_TEXT = (sectionId, target,text) => ({
   type: ChangeSectionText,
   sectionId,
-  target
+  target,
+  text
 });
+// 섹션 단계 설정 (nextId = 2인경우 2로 넘어감)
+export const ChangeSectionNextId = "CHANGE/SECTION/NEXTID";
+export const ACTION_CHANGE_SECTION_NEXTID = (sectionId,nextId)=>({
+    type:ChangeSectionNextId,
+    sectionId,
+    nextId
+ })
