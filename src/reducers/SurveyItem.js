@@ -26,6 +26,8 @@ function createState() {
   return {
     sectionId: initialId.section,
     nextId: 0,
+    title: '',
+    description: '',
     items: [
       {
         id: initialId.item,
@@ -73,9 +75,15 @@ function copySection(state, sectionId) {
   return [].concat(
     ...state.map((section) =>
       section.sectionId === sectionId
-        ? [{ ...section}, {...section, sectionId: initialId.section }]
+        ? [{ ...section }, { ...section, sectionId: initialId.section }]
         : section,
     ),
+  );
+}
+// 섹션 제목 & 설명 추가
+function changeSectionText(state, sectionId, target, text) {
+  return state.map((section) =>
+    section.sectionId === sectionId ? { ...section, [target]: text } : section,
   );
 }
 /// #endregion
@@ -91,7 +99,12 @@ function SurveyItem(state = initialState, action) {
     case CopySection:
       return copySection(state, action.sectionId);
     case ChangeSectionText:
-      return state;
+      return changeSectionText(
+        state,
+        action.sectionId,
+        action.target,
+        action.text,
+      );
     default:
       return state;
   }
