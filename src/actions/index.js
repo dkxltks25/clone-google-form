@@ -96,16 +96,16 @@ export const ACTION_CHANGE_ITEM_TEXT = (sectionId, itemId, target, text) => ({
 // 항목 설명 추가
 export const ChangeToggleItemDescription = 'CHANGE/TOGGLE/ITEM/DESCRIPTION';
 export const ACTION_CHANGE_TOGGLE_ITEM_DESCRIPTION = (sectionId, itemId) => ({
-  type: ChangeItemAbleDescripbion,
+  type: ChangeToggleItemDescription,
   sectionId,
   itemId,
 });
 //**********************************
 // 항목 아이템 타입 변경
-export const ChangeItemType = "CHANGE/ITEM/TYPE";
-export const ACTION_CHANGE_ITEM_TYPE = (sectionId,itemId,itemType) =>({
-    type: ChangeItemType,
-    sectionId,
-    itemId,
-    itemType
-})
+export const ChangeItemType = 'CHANGE/ITEM/TYPE';
+export const ACTION_CHANGE_ITEM_TYPE = (sectionId, itemId, itemType) => ({
+  type: ChangeItemType,
+  sectionId,
+  itemId,
+  itemType,
+});

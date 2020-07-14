@@ -9,6 +9,14 @@ import {
   CopySection,
   ChangeSectionText,
   ChangeSectionNextId,
+  AddItem,
+  ChangeItemFocus,
+  DeleteItem,
+  MoveItem,
+  ChangeItemText,
+  ChangeToggleItemDescription,
+  ChangeItemType,
+  CopyItem,
 } from '../actions';
 
 const initialId = {
@@ -29,32 +37,34 @@ function createState() {
     nextId: 0,
     title: '',
     description: '',
-    items: [
+    items: [createItem()],
+  };
+}
+//item
+function createItem() {
+  return {
+    id: initialId.item,
+    itemType: 0,
+    title: '',
+    description: '',
+    focus: true,
+    isEtc: false, // 기타 옵션 있는지 없는지
+    step: {
+      startValue: 0,
+      startLabel: '',
+      finishValue: 5,
+      finishLabel: '',
+    },
+    questions: [
       {
-        id: initialId.item,
-        itemType: 0,
+        id: initialId.question,
         title: '',
-        description: '',
-        focus: true,
-        isEtc: false, // 기타 옵션 있는지 없는지
-        step: {
-          startValue: 0,
-          startLabel: '',
-          finishValue: 5,
-          finishLabel: '',
-        },
-        questions: [
-          {
-            id: initialId.question,
-            title: '',
-          },
-        ],
-        grid: {
-          row: [],
-          column: [],
-        },
       },
     ],
+    grid: {
+      row: [],
+      column: [],
+    },
   };
 }
 
@@ -98,6 +108,15 @@ function changeSectionNextId(state, sectionId, nextId) {
       : section,
   );
 }
+// 설문지 항목
+function addItem(state, sectionId) {
+  initialId.plusId('item');
+  return state.map((section) =>
+    section.sectionId === sectionId
+      ? { ...section, items: [...section.items, createItem()] }
+      : section,
+  );
+}
 /// #endregion
 const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
@@ -119,6 +138,22 @@ function SurveyItem(state = initialState, action) {
       );
     case ChangeSectionNextId:
       return changeSectionNextId(state, action.sectionId, action.nextId);
+    case AddItem:
+      return addItem(state, action.sectionId);
+    case ChangeItemFocus:
+      return state;
+    case DeleteItem:
+      return state;
+    case MoveItem:
+      return state;
+    case CopyItem:
+      return state;
+    case ChangeItemText:
+      return state;
+    case ChangeToggleItemDescription:
+      return state;
+    case ChangeItemType:
+      return state;
     default:
       return state;
   }
