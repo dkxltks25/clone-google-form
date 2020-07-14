@@ -4,7 +4,7 @@
 
 import {
   AddSection,
-  RemoveSection,
+  DeleteSection,
   MoveSection,
   CopySection,
   ChangeSectionText,
@@ -66,7 +66,7 @@ function addSection(state) {
 }
 
 // 섹션 삭제
-function removeSection(state, sectionId) {
+function deleteSection(state, sectionId) {
   return state.filter((section) => section.sectionId !== sectionId);
 }
 // 섹션 이동
@@ -104,8 +104,8 @@ function SurveyItem(state = initialState, action) {
   switch (action.type) {
     case AddSection:
       return addSection(state);
-    case RemoveSection:
-      return removeSection(state, action.sectionId);
+    case DeleteSection:
+      return deleteSection(state, action.sectionId);
     case MoveSection:
       return state;
     case CopySection:
