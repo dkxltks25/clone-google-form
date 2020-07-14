@@ -66,6 +66,18 @@ function addSection(state) {
 function removeSection(state, sectionId) {
   return state.filter((section) => section.sectionId !== sectionId);
 }
+// 섹션 이동
+// 섹션 복사
+function copySection(state, sectionId) {
+  initialId.plusId('section');
+  return [].concat(
+    ...state.map((section) =>
+      section.sectionId === sectionId
+        ? [{ ...section}, {...section, sectionId: initialId.section }]
+        : section,
+    ),
+  );
+}
 /// #endregion
 const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
@@ -77,7 +89,7 @@ function SurveyItem(state = initialState, action) {
     case MoveSection:
       return state;
     case CopySection:
-      return state;
+      return copySection(state, action.sectionId);
     case ChangeSectionText:
       return state;
     default:
