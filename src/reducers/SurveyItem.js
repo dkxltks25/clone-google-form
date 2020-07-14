@@ -47,7 +47,7 @@ function createItem() {
     itemType: 0,
     title: '',
     description: '',
-    focus: true,
+    isFocus: true,
     isEtc: false, // 기타 옵션 있는지 없는지
     step: {
       startValue: 0,
@@ -108,7 +108,7 @@ function changeSectionNextId(state, sectionId, nextId) {
       : section,
   );
 }
-// 설문지 항목
+// 설문지 항목추가
 function addItem(state, sectionId) {
   initialId.plusId('item');
   return state.map((section) =>
@@ -117,6 +117,33 @@ function addItem(state, sectionId) {
       : section,
   );
 }
+
+// 포커스 취소
+function closeFocus(items) {
+  return items.map((item) =>
+    item.isFocus ? { ...item, isFocus: false } : item,
+  );
+}
+// 포커스 열기
+function openFocus(items, itemId) {
+  return items.map((item) =>
+    item.id === itemId ? { ...item, isFocus: true } : item,
+  );
+}
+// 포커스 변경
+function changeItemFocus(state, sectionId, itemId) {
+  return state
+    .map((section) => ({
+      ...section,
+      items: closeFocus(section.items),
+    }))
+    .map((section) =>
+      section.sectionId === sectionId
+        ? { ...section, items: openFocus(section.items, itemId) }
+        : section,
+    );
+}
+
 /// #endregion
 const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
@@ -141,7 +168,7 @@ function SurveyItem(state = initialState, action) {
     case AddItem:
       return addItem(state, action.sectionId);
     case ChangeItemFocus:
-      return state;
+      return changeItemFocus(state,action.sectionId,action.itemId);
     case DeleteItem:
       return state;
     case MoveItem:
