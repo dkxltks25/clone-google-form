@@ -56,19 +56,24 @@ function createState() {
 }
 
 /// #region 기능
+// 섹션 추가
 function addSection(state) {
   initialId.plusId('section');
   return [...state, createState()];
 }
 
-const initialState = [createState()];
+// 섹션 삭제
+function removeSection(state, sectionId) {
+  return state.filter((section) => section.sectionId !== sectionId);
+}
 /// #endregion
+const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
   switch (action.type) {
     case AddSection:
       return addSection(state);
     case RemoveSection:
-      return state;
+      return removeSection(state, action.sectionId);
     case MoveSection:
       return state;
     case CopySection:
