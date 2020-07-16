@@ -172,6 +172,30 @@ function deleteItem(state) {
   const { sectionIndex, itemIndex } = findFocusIndex(state);
   return state.map((section) => section.items.filter((item) => !item.isFocus));
 }
+// return [].concat(
+//   ...state.map((section) =>
+//     section.sectionId === sectionId
+//       ? [
+//         { ...section },
+//         { ...section, sectionId: initialId.section }]
+//       : section,
+//   ),
+// );
+
+function copyItem(state) {
+  initialId.plusId('item');
+  const returnValue = state.map((section) => ({
+    ...section,
+    items: [].concat(
+      ...section.items.map((item) =>
+        item.isFcous ? { ...item, id: 2, isFocus: false } : { ...item, id: 2 },
+      ),
+    ),
+  }));
+  console.log(returnValue);
+  return returnValue;
+}
+
 /// #endregion
 // initialState
 const initialState = [createState()];
@@ -203,7 +227,7 @@ function SurveyItem(state = initialState, action) {
     case MoveItem:
       return state;
     case CopyItem:
-      return state;
+      return copyItem(state);
     case ChangeItemText:
       return state;
     case ChangeToggleItemDescription:
