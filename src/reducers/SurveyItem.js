@@ -67,6 +67,10 @@ function createItem() {
     },
   };
 }
+// 빈 배열 찾기
+function isEmpty(array) {
+  return Array.isArray(array) && array.length;
+}
 
 /// #region 기능
 // 섹션 추가
@@ -144,7 +148,32 @@ function changeItemFocus(state, sectionId, itemId) {
     );
 }
 
+//항목 삭제
+// 포커스 상태인 인덱스 반환
+function findFocusIndex(state) {
+  // 포커스 상태가 true인 section
+  const findSection = state.filter((section) =>
+    isEmpty(section.items.filter((item) => item.isFocus)),
+  )[0];
+  // 섹션의 위치
+  const findSectionIndex = state.indexOf(findSection);
+  // 섹션 내 존재하는 포커스된 아이템 찾기
+  const findItem = state[findSectionIndex].items.filter(
+    (item) => item.isFocus,
+  )[0];
+  return {
+    sectionIndex: findSectionIndex,
+    itemIndex: findSection.items.indexOf(findItem),
+  };
+}
+
+// 삭제
+function deleteItem(state) {
+  const { sectionIndex, itemIndex } = findFocusIndex(state);
+  return state.map((section) => section.items.filter((item) => !item.isFocus));
+}
 /// #endregion
+// initialState
 const initialState = [createState()];
 function SurveyItem(state = initialState, action) {
   switch (action.type) {
@@ -168,9 +197,9 @@ function SurveyItem(state = initialState, action) {
     case AddItem:
       return addItem(state, action.sectionId);
     case ChangeItemFocus:
-      return changeItemFocus(state,action.sectionId,action.itemId);
+      return changeItemFocus(state, action.sectionId, action.itemId);
     case DeleteItem:
-      return state;
+      return deleteItem(state);
     case MoveItem:
       return state;
     case CopyItem:
